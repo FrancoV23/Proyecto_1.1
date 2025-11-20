@@ -36,6 +36,13 @@ pipeline {
                 sh 'mvn package'
             }
         }
+
+        stage('Test') {
+    steps {
+        echo 'Pipeline funcionando correctamente'
+    }
+}
+
     }
 
     post {
