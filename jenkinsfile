@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Obtiene el código de tu repo
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Limpia y compila el proyecto
+                sh 'mvn clean install -DskipTests'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                // Ejecuta los tests (si tienes)
+                sh 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                // Empaqueta y genera el .jar final
+                sh 'mvn package'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✔ Build finalizado con éxito!'
+        }
+        failure {
+            echo '❌ Build falló. Revisa los logs.'
+        }
+    }
+}
